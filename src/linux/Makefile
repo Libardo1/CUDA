@@ -36,7 +36,7 @@
 include ./findcudalib.mk
 
 # Location of the CUDA Toolkit
-CUDA_PATH ?= "/usr/local/cuda-5.5"
+CUDA_PATH ?= "/usr/local/cuda"
 
 # internal flags
 NVCCFLAGS   := -m${OS_SIZE} -maxrregcount=16
@@ -131,14 +131,14 @@ svm-train-gpu.o: svm.cpp svm-train.o
 
 svm-train-gpu: svm.o svm-train.o
 	$(NVCC) $(ALL_LDFLAGS) -o $@ $+ $(LIBRARIES)
-	mkdir -p /bin/$(OS_ARCH)/$(OSLOWER)/$(TARGET)$(if $(abi),/$(abi))
-	cp $@ /bin/$(OS_ARCH)/$(OSLOWER)/$(TARGET)$(if $(abi),/$(abi))
+	mkdir -p bin/$(OS_ARCH)/$(OSLOWER)/$(TARGET)$(if $(abi),/$(abi))
+	cp $@ bin/$(OS_ARCH)/$(OSLOWER)/$(TARGET)$(if $(abi),/$(abi))
 
 run: build
 	./svm-train-gpu
 
 clean:
 	rm -f svm-train-gpu.o svm-train-gpu
-	rm -rf /bin/$(OS_ARCH)/$(OSLOWER)/$(TARGET)$(if $(abi),/$(abi))/svm-train-gpu
+	rm -rf bin/$(OS_ARCH)/$(OSLOWER)/$(TARGET)$(if $(abi),/$(abi))/svm-train-gpu
 
 clobber: clean
